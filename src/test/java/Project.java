@@ -22,6 +22,7 @@ public class Project {
     public static List<Object[]> data() {
         return Arrays.asList(new Object[][] {
                 { "Project #2", "proj2", "Project #2 description" },
+                { "Project #3", "proj3", "Project #3 description" },
         });
     }
 
@@ -61,24 +62,28 @@ public class Project {
         driver.switchTo().defaultContent();
         driver.switchTo().frame("mainframe");
 
+        /* check project name */
         int projectNameExist = driver.findElements(By.xpath("//table[@id='item_view']//following::a[contains(text(),'" + projectName + "')]")).size();
         assertThat(1, equalTo(projectNameExist));
 
+        /* check project description */
         int projectDescriptionExist = driver.findElements(By.xpath("//table[@id='item_view']//following::p[contains(text(),'" + projectDescription + "')]")).size();
         assertThat(1, equalTo(projectDescriptionExist));
 
+        /* check project prefix */
         int projectPrefixExist = driver.findElements(By.xpath("//table[@id='item_view']//following::*[contains(text(),'" + projectPrefix + "')]")).size();
         assertThat(1, equalTo(projectPrefixExist));
 
-
         WebElement row = driver.findElement(By.xpath("//a[contains(text(),'" + projectName + "')]/../.."));
 
-        int isProjectAtive = row.findElements(By.cssSelector("input[title*='Active']")).size();
-        assertThat(1, equalTo(isProjectAtive));
+        /* check project active status */
+        int isProjectActive = row.findElements(By.cssSelector("input[title*='Active']")).size();
+        assertThat(1, equalTo(isProjectActive));
 
+        /* check project public status */
         int isProjectPublic = row.findElements(By.cssSelector("img[title*='Public']")).size();
         assertThat(1, equalTo(isProjectPublic));
-        
+
     }
 
 
